@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Білім берудегі жауапты AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0284C7;
+            --primary-dark: #0369A1;
+            --secondary-color: #06B6D4;
+            --accent-color: #3B82F6;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --bg-light: #F0F9FF;
+            --bg-white: #FFFFFF;
+            --border-color: #E0F2FE;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --gold: #F59E0B;
+            --silver: #9CA3AF;
+            --bronze: #D97706;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-light);
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0284C7, #06B6D4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+            color: white;
+            margin: -3rem -2rem 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon.purple {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .card-icon.blue {
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--primary-color);
+        }
+
+        .card-icon.cyan {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-color);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Section */
+        .section {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* Practice Tool */
+        .practice-tool {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        select, textarea, input {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        select:focus, textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Question Display */
+        .question-display {
+            background: #F0F9FF;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .question-display h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .question-display p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* AI Answer Display - Critical Thinking */
+        .ai-answer-display {
+            background: #FEF3C7;
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .ai-answer-display h4 {
+            color: var(--warning);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-answer-display p {
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .error-marker {
+            background: #FEE2E2;
+            border-left: 3px solid var(--danger);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-disabled {
+            background: var(--bg-light);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .btn-disabled:hover {
+            transform: none;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* AI Dependency Index */
+        .dependency-meter {
+            margin: 2rem 0;
+        }
+
+        .meter-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .meter-bar {
+            width: 100%;
+            height: 30px;
+            background: var(--bg-light);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .meter-fill {
+            height: 100%;
+            transition: width 0.5s ease, background 0.5s;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .meter-fill.low {
+            background: var(--success);
+        }
+
+        .meter-fill.medium {
+            background: var(--warning);
+        }
+
+        .meter-fill.high {
+            background: var(--danger);
+        }
+
+        .dependency-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .achievement {
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            opacity: 0.5;
+        }
+
+        .achievement.unlocked {
+            opacity: 1;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+        }
+
+        .achievement.unlocked .achievement-icon {
+            transform: scale(1.1);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .achievement-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .achievement-progress {
+            margin-top: 1rem;
+            height: 6px;
+            background: var(--bg-light);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .achievement-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s;
+        }
+
+        /* Skills Progress */
+        .skills-list {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .skill-item {
+            background: var(--bg-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .skill-name {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .skill-level {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s;
+            border-radius: 4px;
+        }
+
+        .skill-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: var(--bg-white);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 2rem;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .toast-message {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Feedback Messages */
+        .feedback {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .feedback.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .feedback.info {
+            background: rgba(2, 132, 199, 0.1);
+            border-left: 4px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Hint Box */
+        .hint-box {
+            background: var(--bg-light);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .hint-box.show {
+            display: block;
+        }
+
+        .hint-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Mode Selector */
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .mode-card {
+            flex: 1;
+            background: var(--bg-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .mode-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+        }
+
+        .mode-card.active {
+            border-color: var(--primary-color);
+            background: rgba(2, 132, 199, 0.05);
+        }
+
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .mode-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Page Transitions */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .mode-selector {
+                flex-direction: column;
+            }
+
+            .toast {
+                right: 1rem;
+                left: 1rem;
+            }
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* Critical Thinking Styles */
+        .error-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .error-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .error-item.found {
+            border-left-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Achievement Toast -->
+    <div id="achievementToast" class="toast">
+        <div class="toast-icon">🏆</div>
+        <div class="toast-content">
+            <div class="toast-title" id="toastTitle">Жетістік ашылды!</div>
+            <div class="toast-message" id="toastMessage"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <div class="logo-icon">🎓</div>
+                <span>Білім берудегі жауапты AI</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Зерттеу</a></li>
+                    <li><a href="#" class="nav-link" data-page="research">Мәселе туралы</a></li>
+                    <li><a href="#" class="nav-link" data-page="practice">Практика</a></li>
+                    <li><a href="#" class="nav-link" data-page="critical">Сыни ойлау</a></li>
+                    <li><a href="#" class="nav-link" data-page="progress">Прогресс</a></li>
+                    <li><a href="#" class="nav-link" data-page="ethics">Этика</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="container">
+                <h1>Білім берудегі AI-ды жауапты пайдалану</h1>
+                <p>Computer Science студенттеріне арналған білім беру платформасы, жасанды интеллект мүмкіндіктерін пайдалану мен сыни ойлауды дамыту арасындағы тепе-теңдікті зерттейді</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon purple">🧠</div>
+                    <h3>Сыни ойлау</h3>
+                    <p>AI құралы ретінде, өз ойлауыңызды алмастыратын емес. Дағдыларыңызды дамыту үшін AI-ды көмекші құрал ретінде пайдаланыңыз</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue">🎯</div>
+                    <h3>Саналы оқыту</h3>
+                    <p>Технологияларға шамадан тыс тәуелділік қауіптерін түсіну және білімді игерудің тиімді әдістерін қолдану</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon cyan">⚖️</div>
+                    <h3>Этикалық қолдану</h3>
+                    <p>Ашықтық, қауіпсіздік және жауапкершілік принциптері негізінде AI инструменттерін пайдалану</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Жоба туралы</h2>
+                <p>Бұл жоба Computer Science студенттеріне арналған білім беру құралы болып табылады. Ол жасанды интеллектті оқу процесінде дұрыс және жауапты пайдалану әдістерін көрсетеді.</p>
+                <p style="margin-top: 1rem;">Біздің мақсат – студенттерге AI технологияларының артықшылықтары мен қауіптерін түсінуге көмектесу, сонымен қатар олардың сыни ойлау дағдыларын дамыту.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Research Page -->
+    <div id="research" class="page">
+        <div class="container">
+            <h1 class="section-title">Мәселе және зерттеу нәтижелері</h1>
+            
+            <div class="section">
+                <h2 class="section-title">Негізгі мәселе</h2>
+                <p>Жасанды интеллект технологиялары білім беру саласында кеңінен таралуда, бірақ олардың пайдаланылуы туралы бірқатар алаңдаушылықтар туындайды:</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">65%</div>
+                        <div class="stat-label">Студенттер AI-ды тапсырмаларды орындау үшін пайдаланады</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">42%</div>
+                        <div class="stat-label">AI көмегімен дайындалған жұмыстардың сапасы төмендейді</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">78%</div>
+                        <div class="stat-label">Оқытушылар AI пайдалануды реттеу қажет деп санайды</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">AI білім берудегі мүмкіндіктер мен қауіптер</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                    <div>
+                        <h3 style="color: var(--success); margin-bottom: 1rem;">✓ Мүмкіндіктер</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Жылдам ақпарат алу:</strong> Күрделі тақырыптарды түсіндіруге көмектеседі
+                            </li>
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Жеке көмек:</strong> Әрбір студенттің деңгейіне бейімделген материалдар
+                            </li>
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Шығармашылық дамыту:</strong> Идеяларды генерациялау және жобаларды жоспарлау
+                            </li>
+                            <li style="padding: 0.75rem 0;">
+                                <strong>Тиімділікті арттыру:</strong> Уақытты үнемдеу және өнімділікті жақсарту
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: var(--danger); margin-bottom: 1rem;">⚠ Қауіптер</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Сыни ойлаудың азаюы:</strong> Өз бетінше ойлау дағдысының жоғалуы
+                            </li>
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Академиялық адалдық:</strong> Плагиат және мойындау мәселелері
+                            </li>
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color);">
+                                <strong>Тәуелділік:</strong> Технологияға шамадан тыс сенім
+                            </li>
+                            <li style="padding: 0.75rem 0;">
+                                <strong>Біліктің төмендеуі:</strong> Негізгі дағдыларды дамытпау
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice Page -->
+    <div id="practice" class="page">
+        <div class="container">
+            <h1 class="section-title">Практикалық оқу құралы</h1>
+            
+            <div class="section">
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                    Бұл құрал өзіңіздің білімді тексеру үшін жасалған. AI дайын жауаптарды бермейді, тек кеңестер мен түсініктемелер береді. Бұл сіздің сыни ойлау дағдыларыңызды дамытуға көмектеседі.
+                </p>
+
+                <div class="practice-tool">
+                    <div class="form-group">
+                        <label for="subject">Пән таңдаңыз:</label>
+                        <select id="subject" onchange="updateTopics()">
+                            <option value="">-- Пән таңдаңыз --</option>
+                            <option value="programming">Программалау (Python, Java)</option>
+                            <option value="algorithms">Алгоритмдер және деректер құрылымы</option>
+                            <option value="databases">Мәліметтер қоры</option>
+                            <option value="networks">Компьютерлік желілер</option>
+                            <option value="webdev">Веб-әзірлеу</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="topic">Тақырып таңдаңыз:</label>
+                        <select id="topic" onchange="updateDifficulty()" disabled>
+                            <option value="">-- Алдымен пән таңдаңыз --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="difficulty">Күрделілік деңгейі:</label>
+                        <select id="difficulty" onchange="loadQuestion()" disabled>
+                            <option value="">-- Деңгей таңдаңыз --</option>
+                            <option value="easy">Жеңіл</option>
+                            <option value="medium">Орташа</option>
+                            <option value="hard">Қиын</option>
+                        </select>
+                    </div>
+
+                    <div id="questionContainer" class="hidden">
+                        <div class="question-display">
+                            <h4>Тапсырма <span id="questionNumber"></span></h4>
+                            <p id="questionText"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="answer">Сіздің жауабыңыз:</label>
+                            <textarea id="answer" placeholder="Жауапты осы жерге жазыңыз..."></textarea>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="checkAnswer()">Жауапты тексеру</button>
+                            <button class="btn btn-secondary" onclick="showHint()">Кеңес алу</button>
+                            <button class="btn btn-secondary" onclick="explainMistake()">Қатені түсіндіру</button>
+                            <button class="btn btn-disabled tooltip" data-tooltip="Бұл функция блокталған - өз бетіңізше шешуіңіз керек!" disabled>
+                                🚫 Менің орныма шеш
+                            </button>
+                        </div>
+
+                        <div id="feedback" class="feedback"></div>
+                        <div id="hintBox" class="hint-box"></div>
+                    </div>
+                </div>
+
+                <div class="section" style="margin-top: 3rem;">
+                    <h2 class="section-title">AI-ға тәуелділік индексі</h2>
+                    <div class="dependency-meter">
+                        <div class="meter-label">
+                            <span>Тәуелділік деңгейі</span>
+                            <span id="dependencyPercent">0%</span>
+                        </div>
+                        <div class="meter-bar">
+                            <div id="dependencyFill" class="meter-fill low" style="width: 0%;">0%</div>
+                        </div>
+                    </div>
+                    <div class="dependency-info">
+                        <p id="dependencyMessage">Сіз әлі ешқандай тапсырма орындаған жоқсыз. Өз бетіңізбен жұмыс істеу сіздің дағдыларыңызды дамытады!</p>
+                    </div>
+                    
+                    <div class="stats-grid" style="margin-top: 2rem;">
+                        <div class="stat-card">
+                            <div class="stat-value" id="attemptsCount">0</div>
+                            <div class="stat-label">Жалпы әрекеттер</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="hintsUsed">0</div>
+                            <div class="stat-label">Кеңестер алынды</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="correctAnswers">0</div>
+                            <div class="stat-label">Дұрыс жауаптар</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Critical Thinking Page -->
+    <div id="critical" class="page">
+        <div class="container">
+            <h1 class="section-title">Сыни ойлау симуляторы</h1>
+            
+            <div class="section">
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                    AI "жауабын" талдаңыз. Қателер, дәлсіздіктер немесе логикалық проблемаларды табыңыз. Бұл сізді AI жауаптарын сыни бағалауға үйретеді.
+                </p>
+
+                <div class="mode-selector">
+                    <div class="mode-card active" onclick="selectCriticalMode('find')">
+                        <div class="mode-icon">🔍</div>
+                        <div class="mode-title">Қателерді табу</div>
+                        <div class="mode-desc">AI жауабындағы қателерді анықтаңыз</div>
+                    </div>
+                    <div class="mode-card" onclick="selectCriticalMode('analyze')">
+                        <div class="mode-icon">🧪</div>
+                        <div class="mode-title">Талдау</div>
+                        <div class="mode-desc">Жауаптың сапасын бағалаңыз</div>
+                    </div>
+                </div>
+
+                <div class="practice-tool">
+                    <div class="form-group">
+                        <label for="criticalSubject">Тақырып таңдаңыз:</label>
+                        <select id="criticalSubject" onchange="loadCriticalQuestion()">
+                            <option value="">-- Тақырып таңдаңыз --</option>
+                            <option value="algorithms">Алгоритмдер</option>
+                            <option value="programming">Программалау</option>
+                            <option value="databases">Деректер қоры</option>
+                            <option value="security">Қауіпсіздік</option>
+                        </select>
+                    </div>
+
+                    <div id="criticalContainer" class="hidden">
+                        <div class="question-display">
+                            <h4>Сұрақ:</h4>
+                            <p id="criticalQuestion"></p>
+                        </div>
+
+                        <div class="ai-answer-display">
+                            <h4>⚠ AI жауабы (тексеру керек):</h4>
+                            <p id="aiAnswer"></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Қателерді белгілеңіз:</label>
+                            <div id="errorsList" class="error-list"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="criticalAnalysis">Сіздің талдауыңыз:</label>
+                            <textarea id="criticalAnalysis" placeholder="AI жауабының қателерін, дәлсіздіктерін немесе логикалық проблемаларын түсіндіріңіз..."></textarea>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="checkCriticalThinking()">Тексеру</button>
+                            <button class="btn btn-secondary" onclick="showCriticalHint()">Кеңес</button>
+                            <button class="btn btn-secondary" onclick="loadCriticalQuestion()">Келесі тапсырма</button>
+                        </div>
+
+                        <div id="criticalFeedback" class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Page -->
+    <div id="progress" class="page">
+        <div class="container">
+            <h1 class="section-title">Прогресс және жетістіктер</h1>
+            
+            <div class="section">
+                <h2 class="section-title">🏆 Жетістіктер</h2>
+                <div class="achievements-grid" id="achievementsGrid">
+                    <!-- Achievements will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">📊 Дағдылар прогрессі</h2>
+                <div class="skills-list" id="skillsList">
+                    <!-- Skills will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">📈 Жалпы статистика</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalQuestions">0</div>
+                        <div class="stat-label">Шешілген тапсырмалар</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="successRate">0%</div>
+                        <div class="stat-label">Сәттілік коэффициенті</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="independenceScore">0</div>
+                        <div class="stat-label">Тәуелсіздік балы</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="currentStreak">0</div>
+                        <div class="stat-label">Қазіргі серия</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ethics Page -->
+    <div id="ethics" class="page">
+        <div class="container">
+            <h1 class="section-title">Этика және деректердің қауіпсіздігі</h1>
+            
+            <div class="section">
+                <h2 class="section-title">Деректерді қорғау принциптері</h2>
+                <p>Біз сіздің жеке өміріңіз бен деректеріңіздің қауіпсіздігін қамтамасыз етеміз:</p>
+                
+                <div class="cards-grid" style="margin-top: 2rem;">
+                    <div class="card">
+                        <div class="card-icon purple">🔒</div>
+                        <h3>Локальды сақтау</h3>
+                        <p>Барлық деректер тек сіздің браузеріңізде сақталады. Ешқандай ақпарат серверге жіберілмейді</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon blue">🛡️</div>
+                        <h3>Құпиялылық</h3>
+                        <p>Сіздің жауаптарыңыз бен прогресс деректеріңіз толығымен жеке және конфиденциалды</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon cyan">✨</div>
+                        <h3>Ашықтық</h3>
+                        <p>Біз қалай жұмыс істейтінімізді ашық түрде көрсетеміз. Барлық код GitHub-та қолжетімді</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">AI пайдаланудың этикалық принциптері</h2>
+                <div style="line-height: 2;">
+                    <p><strong>1. Адалдық:</strong> AI көмегімен жасалған жұмысты өз еңбегім деп көрсетпеу</p>
+                    <p><strong>2. Жауапкершілік:</strong> AI-дің шешімдері мен ұсыныстарын сыни бағалау</p>
+                    <p><strong>3. Білім алу:</strong> AI-ды білімді бекіту үшін пайдалану, оны алмастыру үшін емес</p>
+                    <p><strong>4. Өзін-өзі дамыту:</strong> Технологияға тәуелділіктен аулақ болу</p>
+                    <p><strong>5. Құрмет:</strong> Басқалардың еңбегін құрметтеу және плагиаттан бас тарту</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Техникалық ақпарат</h2>
+                <p>Бұл веб-сайт:</p>
+                <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 2;">
+                    <li>Толығымен клиент жағында жұмыс істейді (JavaScript)</li>
+                    <li>Сыртқы AI API қолданбайды</li>
+                    <li>LocalStorage арқылы деректерді сақтайды</li>
+                    <li>Ешқандай деректерді серверге жібермейді</li>
+                    <li>Ашық бастапқы код (MIT лицензиясы)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Білім берудегі жауапты AI – Computer Science студенттеріне арналған жоба</p>
+            <p style="margin-top: 1rem;">
+                <a href="https://github.com" target="_blank">📚 GitHub репозиторий</a> |
+                <a href="#" onclick="showPage('ethics')">Жеке өмір саясаты</a>
+            </p>
+            <p style="margin-top: 1rem; opacity: 0.7;">© 2026 - Білім берудегі жауапты AI</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
